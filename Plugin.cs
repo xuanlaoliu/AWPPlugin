@@ -1,6 +1,4 @@
 using Exiled.API.Features;
-using Exiled.CustomItems.API.Features;
-using PlayerRoles;
 using System;
 
 namespace AWPPlugin
@@ -11,15 +9,11 @@ namespace AWPPlugin
 
         public static AWPPlugin Instance { get; private set; }
 
-        public AWP AwpWeapon { get; private set; }
-
         public override string Name => "AWPPlugin";
 
         public override string Prefix => "AWPPlugin";
 
-        public override string Author => "MMK&早饭祥";
-
-        public override string Description => "AWP自定义狙击枪插件 - 高伤低子弹的狙击枪";
+        public override string Author => "MMK";
 
         public override Version Version => new Version(1, 0, 0);
 
@@ -31,10 +25,7 @@ namespace AWPPlugin
             {
                 Instance = this;
 
-                AwpWeapon = new AWP();
-                AwpWeapon.Register();
-
-                _eventHandlers = new EventHandlers(this);
+                _eventHandlers = new EventHandlers();
 
                 Exiled.Events.Handlers.Player.PickingUpItem += _eventHandlers.OnPickingUpItem;
                 Exiled.Events.Handlers.Server.RespawningTeam += _eventHandlers.OnRespawningTeam;
@@ -56,12 +47,6 @@ namespace AWPPlugin
                     Exiled.Events.Handlers.Player.PickingUpItem -= _eventHandlers.OnPickingUpItem;
                     Exiled.Events.Handlers.Server.RespawningTeam -= _eventHandlers.OnRespawningTeam;
                     _eventHandlers = null;
-                }
-
-                if (AwpWeapon != null)
-                {
-                    AwpWeapon.Unregister();
-                    AwpWeapon = null;
                 }
 
                 Instance = null;

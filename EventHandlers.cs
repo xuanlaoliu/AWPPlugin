@@ -1,6 +1,5 @@
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.API.Features.Pickups;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
@@ -12,13 +11,6 @@ namespace AWPPlugin
 {
     public class EventHandlers
     {
-        private readonly AWPPlugin _plugin;
-
-        public EventHandlers(AWPPlugin plugin)
-        {
-            _plugin = plugin;
-        }
-
         public void OnPickingUpItem(PickingUpItemEventArgs ev)
         {
             if (ev.Player == null || ev.Pickup == null)
@@ -51,13 +43,16 @@ namespace AWPPlugin
                 if (!isChaos && !isNtf)
                     return;
 
+                if (!CustomItem.TryGet(100u, out CustomItem awp))
+                    return;
+
                 Vector3 spawn1 = new Vector3(0.614f, 302.5f, -39.853f);
                 Vector3 spawn2 = new Vector3(134.933f, 297.552f, -43.236f);
 
                 for (int i = 0; i < 2; i++)
                 {
-                    _plugin.AwpWeapon.Spawn(spawn1);
-                    _plugin.AwpWeapon.Spawn(spawn2);
+                    awp.Spawn(spawn1);
+                    awp.Spawn(spawn2);
                 }
 
                 Log.Info("[AWPPlugin] 已在两个坐标点各生成 2 把 AWP，共 4 把");
